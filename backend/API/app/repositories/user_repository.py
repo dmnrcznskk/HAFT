@@ -1,4 +1,3 @@
-from pydantic import EmailStr
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
@@ -9,7 +8,7 @@ class UserRepository:
     def __init__(self, db: AsyncSession):
         self.db = db
 
-    async def create_user(self, new_user:NNUser):
+    async def create_user(self, new_user: NNUser):
         self.db.add(new_user)
         await self.db.commit()
         await self.db.refresh(new_user)
