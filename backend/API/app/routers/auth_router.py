@@ -9,7 +9,7 @@ from app.services.auth_service import AuthService
 auth_router = APIRouter()
 
 
-@auth_router.post("/user/", status_code=status.HTTP_201_CREATED)
+@auth_router.post("/register/", status_code=status.HTTP_201_CREATED)
 async def register(new_user: CreateNNUser, auth_service: AuthService = Depends(get_auth_service)):
     await auth_service.register_user(new_user)
     return {"message": "User created successfully"}
