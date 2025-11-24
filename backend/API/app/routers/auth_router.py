@@ -1,5 +1,5 @@
-from fastapi import APIRouter
-from fastapi.params import Depends
+from fastapi import APIRouter, HTTPException
+from fastapi.params import Depends, Cookie
 from fastapi.security import OAuth2PasswordRequestForm
 from starlette import status
 from starlette.responses import Response
@@ -36,3 +36,19 @@ async def login(
         secure=settings.IS_PRODUCTION,
     )
     return access_token
+
+
+@auth_router.post("/refresh/")
+async def refresh_token(
+    response: Response,
+    auth_service: AuthService = Depends(get_auth_service),
+    refresh_token: str = Cookie(None),
+):
+    if not refresh_token:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid refresh token"
+        )
+    print(refresh_token)
+
+    new_token = await auth_service.refresh_session(refresh_token)
+    return new_token

@@ -60,3 +60,24 @@ class AuthService:
             token_type="bearer",
         )
         return access_token, refresh_token
+
+    async def refresh_session(self, refresh_token: str):
+        credentials_exception = HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+        payload = security.get_payload(refresh_token, credentials_exception)
+        email = payload.get("sub")
+        if email is None:
+            raise credentials_exception
+
+        user = await self.repo.get_user_by_email(email)
+        if user is None:
+            raise credentials_exception
+
+        new_access_token = Token(
+            access_token=security.create_token({"sub": email}), token_type="bearer"
+        )
+
+        return new_access_token
