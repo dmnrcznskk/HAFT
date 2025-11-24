@@ -10,11 +10,14 @@ async def create_db_and_tables():
     async with async_engine.begin() as conn:
         await conn.run_sync(SQLModel.metadata.create_all)
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await create_db_and_tables()
     yield
 
     print("Closing app")
+
+
 api = FastAPI(lifespan=lifespan)
 api.include_router(auth_router, prefix="/auth", tags=["Authorization"])
