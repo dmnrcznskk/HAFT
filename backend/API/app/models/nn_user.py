@@ -14,6 +14,6 @@ class CreateNNUser(BaseModel):
     email: EmailStr
     password: str
 
-class ResponseNNUser:
+class ResponseNNUser(BaseModel):
     id: UUID
     email: str

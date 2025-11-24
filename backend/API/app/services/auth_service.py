@@ -51,13 +51,13 @@ class AuthService:
             )
 
         access_token = Token(
-            access_token=security.create_token({"sub": user.email}), token_type="bearer"
+            access_token=security.create_token({"sub": user.email}), token_type="access"
         )
         refresh_token = Token(
             access_token=security.create_token(
                 {"sub": user.email}, expires_delta=timedelta(days=7)
             ),
-            token_type="bearer",
+            token_type="refresh",
         )
         return access_token, refresh_token
 
@@ -77,7 +77,8 @@ class AuthService:
             raise credentials_exception
 
         new_access_token = Token(
-            access_token=security.create_token({"sub": email}), token_type="bearer"
+            access_token=security.create_token({"sub": email}), token_type="access"
         )
 
         return new_access_token
+
