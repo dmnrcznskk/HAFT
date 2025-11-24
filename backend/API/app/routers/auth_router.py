@@ -52,3 +52,9 @@ async def refresh_token(
 
     new_token = await auth_service.refresh_session(refresh_token)
     return new_token
+
+@auth_router.get("/logout/")
+async def logout(response: Response):
+    response.delete_cookie(key="refresh_token", httponly=True, secure=settings.IS_PRODUCTION)
+    return {"message": "Logged out successfully"}
+

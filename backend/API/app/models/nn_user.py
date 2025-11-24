@@ -1,9 +1,11 @@
+import uuid
+
 from pydantic import BaseModel, EmailStr
 from sqlmodel import SQLModel, Field
-
+from uuid import UUID
 
 class NNUser(SQLModel, table=True):
-    id: int | None = Field(default=None, primary_key=True)
+    id: UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     email: str = Field(unique=True, index=True)
     hashed_password: str
 
@@ -11,3 +13,7 @@ class NNUser(SQLModel, table=True):
 class CreateNNUser(BaseModel):
     email: EmailStr
     password: str
+
+class ResponseNNUser:
+    id: UUID
+    email: str
