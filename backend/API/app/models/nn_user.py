@@ -5,10 +5,12 @@ from sqlmodel import SQLModel, Field
 from uuid import UUID
 
 class NNUser(SQLModel, table=True):
+    __tablename__ = "nn_user"
+
     id: UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     email: str = Field(unique=True, index=True)
+    username: str
     hashed_password: str
-
 
 class CreateNNUser(BaseModel):
     email: EmailStr
@@ -17,3 +19,4 @@ class CreateNNUser(BaseModel):
 class ResponseNNUser(BaseModel):
     id: UUID
     email: str
+    username: str

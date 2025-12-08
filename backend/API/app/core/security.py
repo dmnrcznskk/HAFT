@@ -3,7 +3,9 @@ from app.core.config import settings
 import jwt
 
 
-def create_token(data: dict, expires_delta: timedelta | None = None, token_type: str = "access"):
+def create_token(
+    data: dict, expires_delta: timedelta | None = None, token_type: str = "access"
+):
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.now(timezone.utc) + expires_delta
