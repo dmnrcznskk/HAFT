@@ -20,9 +20,3 @@ def get_auth_service(
     repo: UserRepository = Depends(GetRepo(UserRepository)),
 ) -> AuthService:
     return AuthService(repo=repo)
-
-async def get_current_user(
-    token: str = Depends(reusable_oauth2),
-    service: AuthService = Depends(get_auth_service),
-) -> NNUser:
-    return await service.get_user_from_token(token)
