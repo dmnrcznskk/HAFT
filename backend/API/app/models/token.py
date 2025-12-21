@@ -2,5 +2,5 @@ from pydantic import BaseModel
 
 
 class Token(BaseModel):
-    access_token: str
+    token_value: str
     token_type: str
