@@ -1,6 +1,7 @@
 from fastapi.params import Depends
 from fastapi.security import OAuth2PasswordBearer
 from sqlmodel.ext.asyncio.session import AsyncSession
+from app.services.auth_service import AuthService
 
 from app.core.session import get_session
 from app.models.nn_user import NNUser
