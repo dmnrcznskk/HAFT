@@ -7,7 +7,7 @@ from uuid import UUID
 
 class UserBase(SQLModel):
     email: EmailStr = Field(unique=True, index=True)
-    username: str
+    username: str | None = None
 
 
 class NNUser(UserBase, table=True):
