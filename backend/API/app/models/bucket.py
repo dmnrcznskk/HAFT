@@ -2,5 +2,5 @@ from enum import Enum
 
 
 class Bucket(Enum):
-    profile = "nene_profiles"
-    embroidery = "nene_embroidery"
+    PROFILE = "nene_profiles"
+    EMBROIDERY = "nene_embroidery"

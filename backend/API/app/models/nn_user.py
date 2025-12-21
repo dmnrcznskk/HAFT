@@ -1,22 +1,25 @@
 import uuid
 
-from pydantic import BaseModel, EmailStr
+from pydantic import EmailStr
 from sqlmodel import SQLModel, Field
 from uuid import UUID
 
-class NNUser(SQLModel, table=True):
+
+class UserBase(SQLModel):
+    email: EmailStr = Field(unique=True, index=True)
+    username: str
+
+
+class NNUser(UserBase, table=True):
     __tablename__ = "nn_user"
 
     id: UUID = Field(default_factory=uuid.uuid4, primary_key=True)
-    email: str = Field(unique=True, index=True)
-    username: str
     hashed_password: str
 
-class CreateNNUser(BaseModel):
-    email: EmailStr
+
+class CreateNNUser(UserBase):
     password: str
 
-class ResponseNNUser(BaseModel):
+
+class ResponseNNUser(UserBase):
     id: UUID
-    email: str
-    username: str
