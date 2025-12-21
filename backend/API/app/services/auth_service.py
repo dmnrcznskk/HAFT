@@ -1,16 +1,42 @@
 from datetime import timedelta
-from fastapi import HTTPException
+from fastapi import HTTPException, Depends
 from pwdlib import PasswordHash
 from starlette import status
 from app.models.nn_user import CreateNNUser, NNUser
 import app.core.security as security
 from app.models.token import Token
+from app.repositories.user_repository import UserRepository
 
 
 class AuthService:
-    def __init__(self, repo):
+    def __init__(self, repo: UserRepository):
         self.repo = repo
         self.password_hash = PasswordHash.recommended()
+
+    async def get_user_from_token(
+        self,
+        token: str,
+    ):
+        credentials_exception = HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+        try:
+            payload = security.get_payload(token, credentials_exception)
+            email = payload.get("sub")
+
+            if email is None:
+                raise credentials_exception
+        except Exception:
+            raise credentials_exception
+
+        user = await self.repo.get_user_by_email(email)
+
+        if user is None:
+            raise credentials_exception
+
+        return user
 
     async def register_user(self, new_user: CreateNNUser):
         existing_user = await self.repo.get_user_by_email(new_user.email)
@@ -24,23 +50,6 @@ class AuthService:
 
         return await self.repo.create(mapped_new_user)
 
-    async def get_user_from_token(self, token: str):
-        credentials_exception = HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Could not validate credentials",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-        try:
-            payload = security.get_payload(token, credentials_exception)
-            email = payload.get("sub")
-            user = await self.repo.get_user_by_email(email)
-        except Exception as e:
-            raise credentials_exception
-
-        if user is None:
-            raise credentials_exception
-        return user
-
     async def login_user(self, email: str, password: str):
         user = await self.repo.get_user_by_email(email)
 
@@ -51,10 +60,10 @@ class AuthService:
             )
 
         access_token = Token(
-            access_token=security.create_token({"sub": user.email}), token_type="access"
+            token_value=security.create_token({"sub": user.email}), token_type="access"
         )
         refresh_token = Token(
-            access_token=security.create_token(
+            token_value=security.create_token(
                 {"sub": user.email}, expires_delta=timedelta(days=7)
             ),
             token_type="refresh",
@@ -62,23 +71,9 @@ class AuthService:
         return access_token, refresh_token
 
     async def refresh_session(self, refresh_token: str):
-        credentials_exception = HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Could not validate credentials",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-        payload = security.get_payload(refresh_token, credentials_exception)
-        email = payload.get("sub")
-        if email is None:
-            raise credentials_exception
-
-        user = await self.repo.get_user_by_email(email)
-        if user is None:
-            raise credentials_exception
-
+        user = await self.get_user_from_token(refresh_token)
         new_access_token = Token(
-            access_token=security.create_token({"sub": email}), token_type="access"
+            token_value=security.create_token({"sub": user.email}), token_type="access"
         )
 
         return new_access_token
-
