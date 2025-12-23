@@ -2,4 +2,5 @@ from enum import Enum
 
 
 class ContentType(Enum):
-    EMBROIDERY = "embroidery"
+    #lowercase is required for psotgresql
+    embroidery = "embroidery"
