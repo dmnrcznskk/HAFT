@@ -6,7 +6,8 @@ from starlette.responses import Response
 
 from app.core.config import settings
 from app.core.dependencies import get_auth_service, get_current_user
-from app.models.nn_user import CreateNNUser, NNUser, ResponseNNUser
+from app.models.nn_user import CreateNNUser, ResponseNNUser, NNUser
+from app.models.token import ReturnToken
 from app.services.auth_service import AuthService
 
 auth_router = APIRouter()
@@ -31,16 +32,16 @@ async def login(
     )
     response.set_cookie(
         key="refresh_token",
-        value=refresh_token.access_token,
+        value=refresh_token.token_value,
         httponly=True,
+        samesite="lax",
         secure=settings.IS_PRODUCTION,
     )
-    return access_token
+    return ReturnToken(access_token=access_token.token_value)
 
 
-@auth_router.post("/refresh/", status_code=status.HTTP_200_OK)
+@auth_router.post("/refresh", status_code=status.HTTP_200_OK)
 async def refresh_token(
-    response: Response,
     auth_service: AuthService = Depends(get_auth_service),
     refresh_token: str = Cookie(None),
 ):
@@ -48,16 +49,21 @@ async def refresh_token(
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid refresh token"
         )
-    print(refresh_token)
 
     new_token = await auth_service.refresh_session(refresh_token)
     return new_token
 
-@auth_router.post("/logout/", status_code=status.HTTP_200_OK)
+
+@auth_router.post("/logout", status_code=status.HTTP_200_OK)
 async def logout(response: Response):
-    response.delete_cookie(key="refresh_token", httponly=True, secure=settings.IS_PRODUCTION)
+    response.delete_cookie(
+        key="refresh_token", httponly=True, secure=settings.IS_PRODUCTION
+    )
     return {"message": "Logged out successfully"}
 
-@auth_router.get("/me/",response_model=ResponseNNUser ,status_code=status.HTTP_200_OK)
-async def get_current_user(current_user: NNUser = Depends(get_current_user)):
+
+@auth_router.get("/me", response_model=ResponseNNUser, status_code=status.HTTP_200_OK)
+async def get_current_user(
+    current_user: NNUser = Depends(get_current_user)
+):
     return current_user
