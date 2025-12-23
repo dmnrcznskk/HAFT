@@ -9,16 +9,17 @@ from app.services.auth_service import AuthService
 
 reusable_oauth2 = OAuth2PasswordBearer(tokenUrl="/auth/token")
 
+class GetRepo:
+    def __init__(self, repo_type):
+        self.repo_type = repo_type
 
-def get_user_repository(db: AsyncSession = Depends(get_session)) -> UserRepository:
-    return UserRepository(db=db)
-
+    def __call__(self, db: AsyncSession = Depends(get_session)):
+        return self.repo_type(db)
 
 def get_auth_service(
-    repo: UserRepository = Depends(get_user_repository),
+    repo: UserRepository = Depends(GetRepo(UserRepository)),
 ) -> AuthService:
     return AuthService(repo=repo)
-
 
 async def get_current_user(
     token: str = Depends(reusable_oauth2),

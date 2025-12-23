@@ -20,9 +20,9 @@ class AuthService:
                 detail="User with this email already exists",
             )
         hashed_password = self.password_hash.hash(new_user.password)
-        mapped_new_user = NNUser(email=new_user.email, hashed_password=hashed_password)
+        mapped_new_user = NNUser(email=new_user.email, hashed_password=hashed_password, username="New User")
 
-        return await self.repo.create_user(mapped_new_user)
+        return await self.repo.create(mapped_new_user)
 
     async def get_user_from_token(self, token: str):
         credentials_exception = HTTPException(
