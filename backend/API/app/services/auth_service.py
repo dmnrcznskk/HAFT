@@ -1,9 +1,11 @@
 from datetime import timedelta
-from fastapi import HTTPException, Depends
+
+from fastapi import HTTPException
 from pwdlib import PasswordHash
 from starlette import status
-from app.models.nn_user import CreateNNUser, NNUser
+
 import app.core.security as security
+from app.models.nn_user import CreateNNUser, NNUser
 from app.models.token import Token
 from app.repositories.user_repository import UserRepository
 
@@ -46,7 +48,9 @@ class AuthService:
                 detail="User with this email already exists",
             )
         hashed_password = self.password_hash.hash(new_user.password)
-        mapped_new_user = NNUser(email=new_user.email, hashed_password=hashed_password, username="New User")
+        mapped_new_user = NNUser(
+            email=new_user.email, hashed_password=hashed_password, username="New User"
+        )
 
         return await self.repo.create(mapped_new_user)
 

@@ -5,8 +5,9 @@ from starlette import status
 from starlette.responses import Response
 
 from app.core.config import settings
-from app.core.dependencies import get_auth_service, reusable_oauth2, get_current_user
+from app.core.dependencies import get_auth_service, get_current_user
 from app.models.nn_user import CreateNNUser, ResponseNNUser, NNUser
+from app.models.token import ReturnToken
 from app.services.auth_service import AuthService
 
 auth_router = APIRouter()
@@ -36,12 +37,11 @@ async def login(
         samesite="lax",
         secure=settings.IS_PRODUCTION,
     )
-    return access_token
+    return ReturnToken(access_token=access_token.token_value)
 
 
 @auth_router.post("/refresh", status_code=status.HTTP_200_OK)
 async def refresh_token(
-    response: Response,
     auth_service: AuthService = Depends(get_auth_service),
     refresh_token: str = Cookie(None),
 ):
