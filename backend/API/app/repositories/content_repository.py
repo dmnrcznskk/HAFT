@@ -1,10 +1,9 @@
 from uuid import UUID
 
-from dns.e164 import query
 from sqlmodel import select, col
 
 from app.models.content import Content
-from app.repositories.repository_base import RepositoryBase
+from app.common.repository_base import RepositoryBase
 
 
 class ContentRepository(RepositoryBase):

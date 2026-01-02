@@ -1,5 +1,5 @@
 from app.models.content import Content, CreateContent
-from app.models.nn_user import NNUser
+from app.auth.models.nn_user import NNUser
 from app.repositories.content_repository import ContentRepository
 from app.services.embroidery_service import EmbroideryService
 

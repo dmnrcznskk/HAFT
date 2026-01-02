@@ -3,11 +3,11 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.core.session import get_session
-from app.models.nn_user import NNUser
+from app.auth.models.nn_user import NNUser
 from app.repositories.content_repository import ContentRepository
 from app.repositories.embroidery_repository import EmbroideryRepository
-from app.repositories.user_repository import UserRepository
-from app.services.auth_service import AuthService
+from app.auth.repositories.user_repository import UserRepository
+from app.auth.services.auth_service import AuthService
 from app.services.content_service import ContentService
 from app.services.embroidery_service import EmbroideryService
 from app.services.storage_service import StorageService

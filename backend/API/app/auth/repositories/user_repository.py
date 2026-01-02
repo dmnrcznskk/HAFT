@@ -1,7 +1,7 @@
 from sqlmodel import select
 
-from app.models.nn_user import NNUser
-from app.repositories.repository_base import RepositoryBase
+from app.auth.models.nn_user import NNUser
+from app.common.repository_base import RepositoryBase
 
 
 class UserRepository(RepositoryBase):

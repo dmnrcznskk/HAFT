@@ -3,7 +3,7 @@ from uuid import UUID
 from sqlmodel import select
 
 from app.models.like import Like
-from app.repositories.repository_base import RepositoryBase
+from app.common.repository_base import RepositoryBase
 
 
 class LikeRepository(RepositoryBase):

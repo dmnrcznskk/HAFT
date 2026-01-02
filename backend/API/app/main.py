@@ -1,10 +1,8 @@
 from fastapi import FastAPI
 from sqlmodel import SQLModel
-from app.models.content import Content
-from app.models.embroidery import Embroidery
 
 from app.core.session import async_engine
-from app.routers.auth_router import auth_router
+from app.auth.router.auth_router import auth_router
 from contextlib import asynccontextmanager
 from app.routers.content_router import content_router
 

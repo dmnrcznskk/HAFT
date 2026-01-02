@@ -6,7 +6,7 @@ from fastapi import UploadFile
 
 from app.models.bucket import Bucket
 from app.models.embroidery import Embroidery
-from app.models.nn_user import NNUser
+from app.auth.models.nn_user import NNUser
 from app.repositories.embroidery_repository import EmbroideryRepository
 from app.services.storage_service import StorageService
 

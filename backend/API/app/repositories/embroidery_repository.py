@@ -3,7 +3,7 @@ from uuid import UUID
 from sqlmodel import select
 
 from app.models.embroidery import Embroidery
-from app.repositories.repository_base import RepositoryBase
+from app.common.repository_base import RepositoryBase
 
 
 class EmbroideryRepository(RepositoryBase):
