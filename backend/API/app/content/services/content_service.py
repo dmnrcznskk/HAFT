@@ -1,7 +1,7 @@
-from app.models.content import Content, CreateContent
-from app.models.nn_user import NNUser
-from app.repositories.content_repository import ContentRepository
-from app.services.embroidery_service import EmbroideryService
+from app.auth.models.nn_user import NNUser
+from app.content.models.content import Content, CreateContent
+from app.content.repositories.content_repository import ContentRepository
+from app.content.services.embroidery_service import EmbroideryService
 
 
 class ContentService:

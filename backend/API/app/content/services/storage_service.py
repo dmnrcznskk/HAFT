@@ -2,8 +2,8 @@ from fastapi import UploadFile, File
 from storage3.types import FileOptions
 from supabase import Client, create_client
 
+from app.content.models.bucket import Bucket
 from app.core.config import settings
-from app.models.bucket import Bucket
 
 
 class StorageService:

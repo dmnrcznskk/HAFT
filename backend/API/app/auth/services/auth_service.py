@@ -5,9 +5,9 @@ from pwdlib import PasswordHash
 from starlette import status
 
 import app.core.security as security
-from app.models.nn_user import CreateNNUser, NNUser
-from app.models.token import Token
-from app.repositories.user_repository import UserRepository
+from app.auth.models.nn_user import CreateNNUser, NNUser
+from app.auth.models.token import Token
+from app.auth.repositories.user_repository import UserRepository
 
 
 class AuthService:

@@ -1,14 +1,14 @@
 from uuid import UUID
 
+from app.auth.routers.auth_router import get_current_user
 from fastapi import APIRouter, UploadFile
 from fastapi.params import Depends, File
 
+from app.auth.models.nn_user import NNUser
+from app.content.models.content import CreateContent
+from app.content.services.content_service import ContentService
+from app.content.services.embroidery_service import EmbroideryService
 from app.core.dependencies import get_content_service, get_embroidery_service
-from app.models.content import CreateContent
-from app.models.nn_user import NNUser
-from app.routers.auth_router import get_current_user
-from app.services.content_service import ContentService
-from app.services.embroidery_service import EmbroideryService
 
 content_router = APIRouter()
 
