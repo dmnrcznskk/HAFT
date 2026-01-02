@@ -4,11 +4,11 @@ from fastapi.security import OAuth2PasswordRequestForm
 from starlette import status
 from starlette.responses import Response
 
-from app.core.config import settings
-from app.core.dependencies import get_auth_service, get_current_user
 from app.auth.models.nn_user import CreateNNUser, ResponseNNUser, NNUser
 from app.auth.models.token import ReturnToken
 from app.auth.services.auth_service import AuthService
+from app.core.config import settings
+from app.core.dependencies import get_auth_service, get_current_user
 
 auth_router = APIRouter()
 

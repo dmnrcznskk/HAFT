@@ -1,8 +1,8 @@
 import uuid
+from uuid import UUID
 
 from pydantic import EmailStr
 from sqlmodel import SQLModel, Field
-from uuid import UUID
 
 
 class UserBase(SQLModel):

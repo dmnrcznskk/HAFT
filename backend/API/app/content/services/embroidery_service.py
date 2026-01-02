@@ -4,11 +4,11 @@ from uuid import UUID
 
 from fastapi import UploadFile
 
-from app.models.bucket import Bucket
-from app.models.embroidery import Embroidery
 from app.auth.models.nn_user import NNUser
-from app.repositories.embroidery_repository import EmbroideryRepository
-from app.services.storage_service import StorageService
+from app.content.models.bucket import Bucket
+from app.content.models.embroidery import Embroidery
+from app.content.repositories.embroidery_repository import EmbroideryRepository
+from app.content.services.storage_service import StorageService
 
 
 class EmbroideryService:

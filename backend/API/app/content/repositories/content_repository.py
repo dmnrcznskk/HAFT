@@ -2,8 +2,8 @@ from uuid import UUID
 
 from sqlmodel import select, col
 
-from app.models.content import Content
 from app.common.repository_base import RepositoryBase
+from app.content.models.content import Content
 
 
 class ContentRepository(RepositoryBase):

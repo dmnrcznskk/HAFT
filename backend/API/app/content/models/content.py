@@ -2,10 +2,12 @@ import datetime
 import uuid
 from typing import Optional
 from uuid import UUID
+
+from sqlalchemy import Enum as SAEnum
 from sqlalchemy import Text, Column, DateTime
 from sqlmodel import SQLModel, Field
-from app.models.content_type import ContentType
-from sqlalchemy import Enum as SAEnum
+
+from app.content.models.content_type import ContentType
 
 
 class ContentBase(SQLModel):
