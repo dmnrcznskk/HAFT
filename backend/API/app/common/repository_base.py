@@ -5,6 +5,7 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 
 ModelType = TypeVar("ModelType", bound=SQLModel)
 
+
 class RepositoryBase:
     def __init__(self, db: AsyncSession):
         self.db = db
