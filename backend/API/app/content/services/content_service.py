@@ -14,6 +14,19 @@ from app.content.repositories.embroidery_repository import EmbroideryRepository
 from app.content.services.storage_service import StorageService
 
 
+def _map_content_embroidery_list(embroider_list):
+    return [
+        ResponseEmbroideryContent(
+            id=embroidery.content.id,
+            content_type=embroidery.content.content_type,
+            title=embroidery.content.title,
+            text=embroidery.content.text,
+            url=embroidery.url
+        )
+        for embroidery in embroider_list
+    ]
+
+
 class ContentService:
     def __init__(
         self,
@@ -81,3 +94,17 @@ class ContentService:
         return ResponseEmbroideryContent(
             **content.model_dump(), url=content.embroidery.url
         )
+
+    async def get_private_library(self, user):
+        embroideries = await self.embroidery_repo.get_embroideries_by_user_id(user.id)
+
+        return _map_content_embroidery_list(embroideries)
+
+    async def get_public_embroideries(self):
+        embroideries = await self.embroidery_repo.get_public_embroideries()
+        return _map_content_embroidery_list(embroideries)
+
+    async def get_public_embroideries_of_user(self, user_id: UUID):
+        embroideries = await self.embroidery_repo.get_public_embroideries_of_user(user_id)
+        return _map_content_embroidery_list(embroideries)
+

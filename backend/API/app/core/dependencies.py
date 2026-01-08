@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from fastapi.params import Depends
 from fastapi.security import OAuth2PasswordBearer
 from sqlmodel.ext.asyncio.session import AsyncSession
@@ -11,7 +12,7 @@ from app.content.services.content_service import ContentService
 from app.content.services.storage_service import StorageService
 from app.core.session import get_session
 
-reusable_oauth2 = OAuth2PasswordBearer(tokenUrl="/auth/token")
+reusable_oauth2 = OAuth2PasswordBearer(tokenUrl="/auth/token", auto_error=False)
 
 
 class GetRepo:
@@ -42,5 +43,11 @@ def get_content_service(
 async def get_current_user(
     token: str = Depends(reusable_oauth2),
     service: AuthService = Depends(get_auth_service),
-) -> NNUser:
-    return await service.get_user_from_token(token)
+) -> NNUser | None:
+    if not token:
+        return None
+
+    try:
+        return await service.get_user_from_token(token)
+    except HTTPException:
+        return None
