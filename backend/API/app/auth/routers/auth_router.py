@@ -63,7 +63,5 @@ async def logout(response: Response):
 
 
 @auth_router.get("/me", response_model=ResponseNNUser, status_code=status.HTTP_200_OK)
-async def get_current_user(
-    current_user: NNUser = Depends(get_current_user)
-):
+async def get_currently_logged_user(current_user: NNUser = Depends(get_current_user)):
     return current_user

@@ -8,7 +8,6 @@ from app.auth.services.auth_service import AuthService
 from app.content.repositories.content_repository import ContentRepository
 from app.content.repositories.embroidery_repository import EmbroideryRepository
 from app.content.services.content_service import ContentService
-from app.content.services.embroidery_service import EmbroideryService
 from app.content.services.storage_service import StorageService
 from app.core.session import get_session
 
@@ -29,20 +28,14 @@ def get_auth_service(
     return AuthService(repo=repo)
 
 
-def get_embroidery_service(
-    embroidery_repo: EmbroideryRepository = Depends(GetRepo(EmbroideryRepository)),
-    storage_service: StorageService = Depends(StorageService),
-) -> EmbroideryService:
-    return EmbroideryService(repo=embroidery_repo, storage_service=storage_service)
-
-
 def get_content_service(
     content_repo: ContentRepository = Depends(GetRepo(ContentRepository)),
-    embroidery_service: EmbroideryService = Depends(get_embroidery_service),
+    embroidery_repo: EmbroideryRepository = Depends(GetRepo(EmbroideryRepository)),
 ) -> ContentService:
     return ContentService(
-        repo=content_repo,
-        embroidery_service=embroidery_service,
+        content_repo=content_repo,
+        embroidery_repo=embroidery_repo,
+        storage_service=StorageService(),
     )
 
 

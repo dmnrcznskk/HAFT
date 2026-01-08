@@ -1,9 +1,9 @@
 from contextlib import asynccontextmanager
 
-from app.auth.routers.auth_router import auth_router
 from fastapi import FastAPI
 from sqlmodel import SQLModel
 
+from app.auth.routers.auth_router import auth_router
 from app.content.routers.content_router import content_router
 from app.core.session import async_engine
 
@@ -17,6 +17,7 @@ async def create_db_and_tables():
 async def lifespan(app: FastAPI):
     await create_db_and_tables()
     yield
+
 
 api = FastAPI(lifespan=lifespan)
 api.include_router(auth_router, prefix="/auth", tags=["Authorization"])
