@@ -1,0 +1,159 @@
+@import "tailwindcss";
+
+:root {
+  --primary-color: #f5c78e;
+  --white-color: #ffffff;
+  --grey-color: #E4E6E8;
+  --accent-color: #f39233;
+  --text-color: #333;
+}
+
+body {
+  background: var(--white-color);
+  color: var(--text-color);
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+}
+
+header {
+  background-color: var(--primary-color);
+  color: var(--white-color);
+  padding: 10px 20px; /* Dodano px i zmniejszono boczny padding na mobile */
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* --- STYLE DLA ELEMENTÓW DESKTOPOWYCH --- */
+/* Domyślnie ukrywamy je na telefonie (Mobile-First) */
+.passages, 
+.search-bar, 
+.log-in {
+  display: none; 
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Dodano px */
+}
+
+.logo {
+  font-size: x-large;
+  font-weight: bold;
+  text-decoration: none;
+  color: white;
+  white-space: nowrap; /* Zapobiega łamaniu nazwy Needle Nest */
+}
+
+/* --- MEDIA QUERIES (DESKTOP) --- */
+@media (min-width: 768px) {
+  header {
+    padding: 12px 30px; /* Większy padding na dużych ekranach */
+  }
+
+  .passages {
+    display: flex;
+    align-items: center;
+    gap: 40px; /* Dodano px */
+  }
+
+  .search-bar {
+    display: flex;
+    align-items: center;
+    margin: 0 20px; /* Dodano px */
+  }
+
+  .log-in {
+    display: block;
+    padding: 10px 25px; /* Dodano px */
+    background-color: var(--accent-color);
+    border-radius: 8px;
+    white-space: nowrap;
+  }
+  .hamburger{
+    display: none;
+  }
+  .mobile_menu {
+    display: none;
+  }
+}
+
+/* --- INPUT I MOBILE MENU --- */
+.search-bar-inside {
+  background: var(--white-color);
+  color: var(--grey-color); /* Zmieniono z grey na text dla czytelności */
+  width: 100%; /* Na mobile 100% szerokości kontenera */
+  max-width: 280px; /* Na desktopie max 280px */
+  padding: 8px 12px; /* Dodano px */
+  border-radius: 8px;
+  border: 1px solid var(--grey-color);
+}
+
+.mobile_menu {
+  background-color: var(--primary-color);
+  display: block;
+  overflow: hidden;
+  transition-property: all;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hamburger-button {
+  padding: 8px;
+  border-radius: 6px;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hamburger-button:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.hamburger-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+svg{
+  width: 32px;
+  height: 32px;
+  transition-property: transform;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+.search-bar-drop{
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* 4 * 4px = 16px */
+  padding: 10px; /* 4 * 4px = 16px */
+}
+.search-bar-drop-inside{
+  width: 100%;
+  padding: 8px; /* 2 * 4px = 8px */
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--grey-color); /* Twoja zmienna #E4E6E8 */
+  border-radius: 8px; /* Standardowo 0.5rem */
+  height: 48px; /* 12 * 4px = 48px */
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition: all 0.2s ease-in-out;
+  background: var(--white-color);
+  color: var(--grey-color);
+}
+.log-in-inside{
+  background-color: var(--accent-color);
+  border-radius: 8px;
+  padding: 8px;
+  height: 45px;
+}
