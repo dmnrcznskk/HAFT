@@ -1,14 +1,14 @@
-# HAFT
-Projekt zespołowy przygotowywany w ramach przedmiotu PRO
+# Team project developed within the scope of the PRO course
 
-**Informacje odnośnie prowadzenia projektu**<br>
-- Jeden branch odpowiada jednemu modułowi.<br>
-- Pull-requesty akceptowane są przez kierownika projektu i scalane do głównej gałęzi.<br>
+## Project Workflow Guidelines
+* One branch corresponds to a single module.
+* Pull requests are approved by the Project Manager and merged into the main branch.
 
-**Struktura repozytorium**<br>
-W repozytorium istnieją dwa główne foldery - frontend i backend.<br>
-Frontend (tu będą informacje).<br>
-Backend składa się z dwóch podkatalogów - API oraz algorytm.<br>
-API autoryzuje użytkowników oraz dostarcza potrzebne dane dla frontendu.<br>
+## Repository Structure
+The repository consists of two main directories: `frontend` and `backend`.
 
-
+* **Frontend**
+  * (details to be added here)
+* **Backend**
+  * Comprises two subdirectories: `API` and `algorithm`.
+  * The **API** handles user authorization and provides necessary data for the frontend.
