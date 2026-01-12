@@ -4,10 +4,16 @@ import cv2
 from PIL import Image
 from collections import Counter
 from typing import Tuple, List, Type, Optional, Callable, Union
+import warnings
 
-# Importy Scikit-learn
+# --- PATCH DLA PYCLUSTERING ---
+if not hasattr(np, "warnings"):
+    np.warnings = warnings
+# ------------------------------
+
 import sklearn.utils
 from sklearn.cluster import KMeans, MeanShift, MiniBatchKMeans
+# ... reszta importów bez zmian ...
 
 # Importy Scipy
 import scipy.cluster
@@ -20,7 +26,7 @@ from pyclustering.cluster import (
 from pyclustering.utils import type_metric, distance_metric
 
 # --- KONFIGURACJA ---
-INPUT_IMAGE = "monke.jpg"  # Nazwa pliku wejściowego
+INPUT_IMAGE = "gora1.jpg"  # Nazwa pliku wejściowego
 OUTPUT_PREFIX = "test"
 WIDTH_CM = 12.0
 AIDA_COUNT = 14
