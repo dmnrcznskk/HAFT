@@ -33,3 +33,6 @@ typing_extensions
 uvicorn
 gunicorn
 supabase
+pillow
+numpy
+opencv-python

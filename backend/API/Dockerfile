@@ -1,17 +1,18 @@
 ARG PYTHON_VERSION=3.13.7
 FROM python:${PYTHON_VERSION}-slim as base
 
-# Prevents Python from writing pyc files.
 ENV PYTHONDONTWRITEBYTECODE=1
-
-# Keeps Python from buffering stdout and stderr to avoid situations where
-# the application crashes without emitting any logs due to buffering.
 ENV PYTHONUNBUFFERED=1
 
-WORKDIR /app
+RUN apt-get update && apt-get install -y \
+    libgl1 \
+    libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
 
-# Create a non-privileged user that the app will run under.
-# See https://docs.docker.com/go/dockerfile-user-best-practices/
+WORKDIR /app
+# PYTHONPATH musi widzieć /app, bo tam trafi biblioteka
+ENV PYTHONPATH="/app"
+
 ARG UID=10001
 RUN adduser \
     --disabled-password \
@@ -22,14 +23,18 @@ RUN adduser \
     --uid "${UID}" \
     appuser
 
+# Instalujemy zależności (z pliku lokalnego w API)
 RUN --mount=type=cache,target=/root/.cache/pip \
     --mount=type=bind,source=requirements.txt,target=requirements.txt \
     python -m pip install -r requirements.txt
 
-# Switch to the non-privileged user to run the application.
-USER appuser
+COPY --from=lib . /app/image_processing/
 
-COPY . .
+COPY . /app/API/
+
+
+USER appuser
 EXPOSE 8000
 
-CMD ["gunicorn", "--chdir", "/app", "app.main:api", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000"]
+# Startujemy z folderu /app/API
+CMD ["gunicorn", "--chdir", "/app/API", "app.main:api", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000"]
