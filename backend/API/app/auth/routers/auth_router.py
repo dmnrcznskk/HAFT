@@ -64,4 +64,8 @@ async def logout(response: Response):
 
 @auth_router.get("/me", response_model=ResponseNNUser, status_code=status.HTTP_200_OK)
 async def get_currently_logged_user(current_user: NNUser = Depends(get_current_user)):
+    if not current_user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Unauthorized"
+        )
     return current_user
