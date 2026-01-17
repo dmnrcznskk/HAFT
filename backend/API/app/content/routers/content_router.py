@@ -7,7 +7,7 @@ from fastapi.params import Depends, File
 from app.auth.models.nn_user import NNUser
 from app.auth.routers.auth_router import get_current_user
 from app.content.models.content import CreateContent
-from app.content.services.content_service import ContentService
+from app.content.services.content_service import ContentService, generate_embroidery_from_picture
 from app.core.dependencies import get_content_service
 
 content_router = APIRouter()
@@ -69,3 +69,7 @@ async def get_public_embroideries_of_user(
         content_service: ContentService = Depends(get_content_service)
 ):
     return await content_service.get_public_embroideries_of_user(user_id)
+
+@content_router.post("/embroidery/generate")
+async def generate_embroidery(num_colors: int, width_cm: int, aida_count: int, img: UploadFile = File(...)):
+    return await generate_embroidery_from_picture(img, num_colors, width_cm, aida_count)

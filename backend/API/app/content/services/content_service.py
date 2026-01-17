@@ -1,3 +1,4 @@
+import base64
 import uuid
 from pathlib import Path
 from uuid import UUID
@@ -12,6 +13,15 @@ from app.content.models.embroidery import Embroidery, ResponseEmbroideryContent
 from app.content.repositories.content_repository import ContentRepository
 from app.content.repositories.embroidery_repository import EmbroideryRepository
 from app.content.services.storage_service import StorageService
+import io
+
+import sys
+image_processing_path = str(Path(__file__).parent.parent.parent.parent / "image_processing")
+if image_processing_path not in sys.path:
+    sys.path.append(image_processing_path)
+
+from image_processing.process_image import process_image
+
 
 
 def _map_content_embroidery_list(embroider_list):
@@ -26,6 +36,22 @@ def _map_content_embroidery_list(embroider_list):
         for embroidery in embroider_list
     ]
 
+
+async def generate_embroidery_from_picture(img: UploadFile, num_colors: int, width_cm: int, aida_count: int):
+    image_bytes = await img.read()
+    image_file = io.BytesIO(image_bytes)
+    result = process_image(image_file, num_colors, width_cm, aida_count)
+
+    preview_base64 = base64.b64encode(result["preview_png"].getvalue()).decode("utf-8")
+    chart_base64 = base64.b64encode(result["chart_png"].getvalue()).decode("utf-8")
+
+    response = {
+        **result["pattern_data"],
+        "preview_png": f"data:image/png;base64,{preview_base64}",
+        "chart_png": f"data:image/png;base64,{chart_base64}"
+    }
+
+    return response
 
 class ContentService:
     def __init__(
@@ -107,4 +133,3 @@ class ContentService:
     async def get_public_embroideries_of_user(self, user_id: UUID):
         embroideries = await self.embroidery_repo.get_public_embroideries_of_user(user_id)
         return _map_content_embroidery_list(embroideries)
-
