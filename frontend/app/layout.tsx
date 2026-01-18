@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
+import NextLink from "next/link";
 import { useRouter } from "next/navigation";
 import "./globals.css";
 
@@ -10,7 +10,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const [user, setUser] = useState<{ username: string; email: string } | null>(null);
   const router = useRouter();
 
-  // 1. Pobieranie danych użytkownika z Proxy API
   const fetchUser = async () => {
     if (typeof window === 'undefined') return;
     const token = localStorage.getItem('token');
@@ -43,7 +42,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   useEffect(() => {
     fetchUser();
-    // Nasłuchiwanie na zmiany (np. po pomyślnym zalogowaniu)
     window.addEventListener('storage', fetchUser);
     return () => window.removeEventListener('storage', fetchUser);
   }, []);
@@ -58,16 +56,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     window.location.reload();
   };
 
+  const displayName = user?.username;
+
   return (
     <html lang="pl">
       <body>
         <header>
           <nav>
             <div className="menu">
-              <Link href="/main-page" className="logo" onClick={closeMenu}>Needle Nest</Link>
+              <NextLink href="/main-page" className="logo" onClick={closeMenu}>Needle Nest</NextLink>
               <div className="passages">
-                <Link href="/generator-page" className="hover:underline">Generator</Link>
-                <Link href="/gallery-page" className="hover:underline">Galeria</Link>
+                <NextLink href="/generator-page">Generator</NextLink>
+                <NextLink href="/gallery-page">Galeria</NextLink>
               </div>
             </div>
 
@@ -75,20 +75,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <input type="text" placeholder="Szukaj..." className="search-bar-inside" />
             </div>
 
-            {/* PUNKT 1 i 2: Dynamiczna zamiana "Zaloguj" na link z nazwą użytkownika */}
             <div className="log-in">
               {user ? (
-                <Link 
+                <NextLink 
                   href="/dashboard-page" 
-                  className="hover:underline font-bold text-white"
+                  className="font-bold text-white uppercase"
                   onClick={closeMenu}
                 >
-                  {user.username.toUpperCase()}
-                </Link>
+
+                  {displayName}
+                </NextLink>
               ) : (
-                <Link href="/login-page" className="hover:underline">
+                <NextLink href="/login-page">
                   Zaloguj
-                </Link>
+                </NextLink>
               )}
             </div>
 
@@ -105,23 +105,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
           </nav>
 
-          {/* Menu Mobilne */}
           <div className={`mobile_menu ${open ? 'max-h-[500px] opacity-100 mt-4' : 'max-h-0 opacity-0 overflow-hidden'} transition-all duration-300`}>
             <div className="search-bar-drop">
-              <Link href="/generator-page" className="py-2" onClick={closeMenu}>Generator</Link>
-              <Link href="/gallery-page" className="py-2" onClick={closeMenu}>Galeria</Link>
+              <NextLink href="/generator-page" className="py-2" onClick={closeMenu}>Generator</NextLink>
+              <NextLink href="/gallery-page" className="py-2" onClick={closeMenu}>Galeria</NextLink>
               
-              <div className="log-in-inside border-t pt-2 mt-2">
+              <div className="log-in-inside pt-2 mt-2">
                 {user ? (
                   <>
-                    {/* Nazwa użytkownika jako link do dashboardu w wersji mobilnej */}
-                    <Link href="/dashboard-page" className="py-2 font-bold text-blue-600 block" onClick={closeMenu}>
-                      {user.username} (Profil)
-                    </Link>
-                    <button onClick={handleLogout} className="text-red-500 py-2">Wyloguj się</button>
+                    <NextLink href="/dashboard-page" className="name-of-user" onClick={closeMenu}>
+                      {displayName}
+                    </NextLink>
                   </>
                 ) : (
-                  <Link href="/login-page" className="font-bold block" onClick={closeMenu}>Zaloguj</Link>
+                  <NextLink href="/login-page" className="name-of-user" onClick={closeMenu}>Zaloguj</NextLink>
                 )}
               </div>
             </div>
@@ -130,7 +127,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         <main>{children}</main>
 
-        <footer className="px-6 py-4 flex justify-center gap-5">
+        <footer>
           <p className="text-sm">Needle Nest 2025</p>
         </footer>
       </body>

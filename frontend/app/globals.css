@@ -6,6 +6,7 @@
   --grey-color: #E4E6E8;
   --accent-color: #f39233;
   --text-color: #333;
+  --button-clicked: #d68600;
 }
 
 body {
@@ -18,7 +19,7 @@ body {
 header {
   background-color: var(--primary-color);
   color: var(--white-color);
-  padding: 10px 20px; /* Dodano px i zmniejszono boczny padding na mobile */
+  padding: 10px 20px;
 }
 
 nav {
@@ -27,8 +28,6 @@ nav {
   justify-content: space-between;
 }
 
-/* --- STYLE DLA ELEMENTÓW DESKTOPOWYCH --- */
-/* Domyślnie ukrywamy je na telefonie (Mobile-First) */
 .passages, 
 .search-bar, 
 .log-in {
@@ -38,7 +37,7 @@ nav {
 .menu {
   display: flex;
   align-items: center;
-  gap: 20px; /* Dodano px */
+  gap: 20px;
 }
 
 .logo {
@@ -46,33 +45,36 @@ nav {
   font-weight: bold;
   text-decoration: none;
   color: white;
-  white-space: nowrap; /* Zapobiega łamaniu nazwy Needle Nest */
+  white-space: nowrap;
 }
 
-/* --- MEDIA QUERIES (DESKTOP) --- */
 @media (min-width: 768px) {
   header {
-    padding: 12px 30px; /* Większy padding na dużych ekranach */
+    padding: 12px 30px; 
   }
 
   .passages {
     display: flex;
     align-items: center;
-    gap: 40px; /* Dodano px */
+    gap: 40px; 
   }
 
   .search-bar {
     display: flex;
     align-items: center;
-    margin: 0 20px; /* Dodano px */
+    margin: 0 20px; 
   }
 
   .log-in {
     display: block;
-    padding: 10px 25px; /* Dodano px */
+    padding: 10px 25px;
     background-color: var(--accent-color);
     border-radius: 8px;
     white-space: nowrap;
+  }
+
+  .log-in:hover{
+    background-color:var(--button-clicked);
   }
   .hamburger{
     display: none;
@@ -82,13 +84,12 @@ nav {
   }
 }
 
-/* --- INPUT I MOBILE MENU --- */
 .search-bar-inside {
   background: var(--white-color);
-  color: var(--grey-color); /* Zmieniono z grey na text dla czytelności */
-  width: 100%; /* Na mobile 100% szerokości kontenera */
-  max-width: 280px; /* Na desktopie max 280px */
-  padding: 8px 12px; /* Dodano px */
+  color: var(--grey-color); 
+  width: 100%;
+  max-width: 280px; 
+  padding: 8px 12px;
   border-radius: 8px;
   border: 1px solid var(--grey-color);
 }
@@ -116,14 +117,6 @@ nav {
   justify-content: center;
 }
 
-.hamburger-button:focus {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-}
-
-.hamburger-button:hover {
-  background-color: rgba(0, 0, 0, 0.05);
-}
 svg{
   width: 32px;
   height: 32px;
@@ -131,29 +124,44 @@ svg{
   transition-duration: 300ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 .search-bar-drop{
   display: flex;
   flex-direction: column;
-  gap: 16px; /* 4 * 4px = 16px */
-  padding: 10px; /* 4 * 4px = 16px */
+  gap: 16px;
+  padding: 10px;
 }
+
 .search-bar-drop-inside{
   width: 100%;
-  padding: 8px; /* 2 * 4px = 8px */
+  padding: 8px;
   border-width: 1px;
   border-style: solid;
-  border-color: var(--grey-color); /* Twoja zmienna #E4E6E8 */
-  border-radius: 8px; /* Standardowo 0.5rem */
-  height: 48px; /* 12 * 4px = 48px */
+  border-color: var(--grey-color);
+  border-radius: 8px;
+  height: 48px;
   outline: 2px solid transparent;
   outline-offset: 2px;
   transition: all 0.2s ease-in-out;
   background: var(--white-color);
   color: var(--grey-color);
 }
+
 .log-in-inside{
   background-color: var(--accent-color);
   border-radius: 8px;
   padding: 8px;
   height: 45px;
+}
+
+.name-of-user{
+  font-weight: 700;
+  display: block;
+}
+
+footer{
+  padding: 16px 24px; 
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }

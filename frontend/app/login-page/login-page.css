@@ -1,18 +1,18 @@
 :root{
-  --primary-color: #f5c78e; /* Jaśniejszy odcień z nowego obrazka */
+  --primary-color: #f5c78e; 
   --accent-color: #f39233;
   --white-color: #ffffff;
   --text-color: #333;
   --grey-color: #E4E6E8;
   --button-clicked: #d68600;
-  --error: #d32f2f;
+  --error-color: #d32f2f;
 }
 
 .login-container {
   max-width: 400px;
   margin: 100px auto;
   padding: 40px;
-  background-color: var(--primary-color); /* Jasny piaskowy kolor z tła strony */
+  background-color: var(--primary-color);
   border-radius: 15px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -44,14 +44,14 @@
 }
 
 .login-input:focus {
-  border-color: var(--accent-color); /* Pomarańczowy focus */
+  border-color: var(--accent-color);
 }
 
 .login-button {
   width: 100%;
   padding: 12px;
-  background-color: var(--accent-color); /* Charakterystyczny pomarańcz przycisku "Zaloguj" */
-  color: white;
+  background-color: var(--accent-color);
+  color: var(--white-color);
   border: none;
   border-radius: 8px;
   font-size: 1.1rem;
@@ -71,7 +71,7 @@
 
 .signup-link {
   margin-top: 20px;
-  color: #5d4037; /* Ciemny brąz dla czytelności */
+  color: var(--text-color);
   font-size: 0.9rem;
 }
 
@@ -86,11 +86,11 @@
 }
 
 .error-message {
-  color: var(--error);
-  background-color: rgba(255, 255, 255, 0.8);
+  color: var(--error-color);
+  background-color:var(--white-color) ;
   padding: 10px;
   border-radius: 5px;
   margin-top: 15px;
   font-size: 0.85rem;
-  border-left: 4px solid var(--error);
+  border-left: 4px solid var(--error-color);
 }

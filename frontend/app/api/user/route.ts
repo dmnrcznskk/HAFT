@@ -9,7 +9,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const response = await fetch('https://haft-gjxw.onrender.com/auth/me', {
+    const response = await fetch('http://127.0.0.1:8000/auth/me', {
       method: 'GET',
       headers: {
         'accept': 'application/json',

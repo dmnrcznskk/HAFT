@@ -1,8 +1,7 @@
 import Link from 'next/link'
-import React from 'react'
 import "./main-page.css"
 
-const Page = () => {
+const MainPage = () => {
   return (
     <div>
       <div className="baner">
@@ -15,7 +14,6 @@ const Page = () => {
             Generuj
           </Link>
         </div>
-        {/* Tu możesz dodać tag img, jeśli ten kursor/siatka to osobny plik */}
         <div className="baner-image"></div>
       </div>
 
@@ -26,4 +24,4 @@ const Page = () => {
   )
 }
 
-export default Page
+export default MainPage

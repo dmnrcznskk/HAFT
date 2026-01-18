@@ -11,7 +11,7 @@ export async function POST(request: Request) {
     formData.append('username', body.username);
     formData.append('password', body.password);
 
-    const res = await fetch('https://haft-gjxw.onrender.com/auth/token/', {
+    const res = await fetch('http://127.0.0.1:8000/auth/token/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
