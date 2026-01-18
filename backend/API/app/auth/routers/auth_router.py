@@ -6,10 +6,10 @@ from starlette.responses import Response
 
 from app.auth.models.nn_user import CreateNNUser, ResponseNNUser, NNUser, UpdateNNUser
 from app.auth.models.token import ReturnToken
-from app.auth.services import auth_service
 from app.auth.services.auth_service import AuthService
 from app.core.config import settings
 from app.core.dependencies import get_auth_service, get_current_user
+from app.common.validators import validate_user_authenticated
 
 auth_router = APIRouter()
 
@@ -63,21 +63,23 @@ async def logout(response: Response):
     return {"message": "Logged out successfully"}
 
 
-@auth_router.get("/profile/me", response_model=ResponseNNUser, status_code=status.HTTP_200_OK)
+@auth_router.get(
+    "/profile/me", response_model=ResponseNNUser, status_code=status.HTTP_200_OK
+)
 async def get_currently_logged_user(current_user: NNUser = Depends(get_current_user)):
-    if not current_user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="Unauthorized"
-        )
+    validate_user_authenticated(current_user)
+
     return current_user
 
-@auth_router.patch("/profile/update", response_model=ResponseNNUser, status_code=status.HTTP_200_OK)
-async def update_profile(
-        credentials: UpdateNNUser,
-        user: NNUser = Depends(get_current_user),
-        auth_service: AuthService = Depends(get_auth_service)
-):
-    if not user:
-        raise HTTPException(status_code=401, detail="Unauthorized")
 
-    return await auth_service.update_user_profile(credentials, user)
+@auth_router.patch(
+    "/profile/update", response_model=ResponseNNUser, status_code=status.HTTP_200_OK
+)
+async def update_profile(
+    credentials: UpdateNNUser,
+    current_user: NNUser = Depends(get_current_user),
+    auth_service: AuthService = Depends(get_auth_service),
+):
+    validate_user_authenticated(current_user)
+
+    return await auth_service.update_user_profile(credentials, current_user)

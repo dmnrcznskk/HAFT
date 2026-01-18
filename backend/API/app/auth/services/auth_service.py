@@ -49,8 +49,7 @@ class AuthService:
             )
         hashed_password = self.password_hash.hash(new_user.password)
         mapped_new_user = NNUser(
-         **new_user.model_dump(),
-         hashed_password=hashed_password
+            **new_user.model_dump(), hashed_password=hashed_password
         )
 
         return await self.repo.create(mapped_new_user)
