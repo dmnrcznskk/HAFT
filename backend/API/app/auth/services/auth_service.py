@@ -82,3 +82,12 @@ class AuthService:
         )
 
         return new_access_token
+
+    async def update_user_profile(self, credentials, user):
+        update_data = credentials.model_dump(exclude_unset=True)
+
+        if "password" in update_data:
+            hashed_password = self.password_hash.hash(update_data["password"])
+            update_data["hashed_password"] = hashed_password
+
+        return await self.repo.update_db_user(user, update_data)
