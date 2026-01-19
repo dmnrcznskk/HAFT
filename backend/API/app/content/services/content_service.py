@@ -7,7 +7,7 @@ from fastapi import UploadFile, HTTPException
 from starlette import status
 
 from app.auth.models.nn_user import NNUser
-from app.common.validators import validate_content_by_user
+from app.common.validators import validate_user_authenticated
 from app.content.models.bucket import Bucket
 from app.content.models.content import Content, CreateContent
 from app.content.models.embroidery import Embroidery, ResponseEmbroideryContent
@@ -80,7 +80,7 @@ class ContentService:
 
         content = await self.content_repo.get_content_by_id(content_id)
 
-        validate_content_by_user(content, user)
+        validate_user_authenticated(content, user)
 
         extension = Path(file.filename).suffix.lower()
         unique_id = uuid.uuid4()
@@ -137,7 +137,7 @@ class ContentService:
         content = await self.content_repo.get_content_by_id(content_id)
         embroidery = content.embroidery
 
-        validate_content_by_user(content, current_user)
+        validate_user_authenticated(content, current_user)
         if not embroidery:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND, detail="Embroidery not found"
