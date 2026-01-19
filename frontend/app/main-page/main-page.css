@@ -1,7 +1,8 @@
 
 :root {
-  --primary-color: #f5c78e; /* Jaśniejszy odcień z nowego obrazka */
+  --primary-color: #f5c78e; 
   --accent-color: #f39233;
+  --button-clicked:#d68600;
   --white-color: #ffffff;
   --text-color: #333;
   --grey-color: #E4E6E8;
@@ -22,7 +23,6 @@
   position: relative;
 }
 
-/* Styl dla treści (tekst + przycisk) */
 .baner-content {
   display: flex;
   flex-direction: column;
@@ -37,15 +37,14 @@
   font-size: 24px;
   line-height: 1.2;
   margin: 0;
-  text-shadow: 0px 1px 2px rgba(0,0,0,0.1); /* Delikatny cień dla czytelności */
 }
 
 .baner .highlight {
-  color: #e67e22;
+  color: var(--accent-color);
 }
 
 .button-link {
-  background-color: #f39233;
+  background-color: var(--accent-color);
   color: white;
   text-decoration: none;
   padding: 12px 50px;
@@ -55,7 +54,10 @@
   transition: all 0.2s;
 }
 
-/* RWD: Od tabletu w górę */
+.button-link:hover{
+  background-color: var(--button-clicked);
+}
+
 @media (min-width: 768px) {
   .baner {
     flex-direction: row;
@@ -67,17 +69,14 @@
   .baner-content {
     width: 50%;
     align-items: center;
-    padding-left: 10%; /* Przesunięcie tekstu do lewej */
   }
 
-  /* Prawa strona z grafiką/siatką */
   .baner-image {
     width: 50%;
     height: 100%;
     position: absolute;
     right: 0;
     top: 0;
-    /* Tutaj wstawiasz tło z siatką i kursorem */
     background-image: url('picture.png'); 
     background-size: cover;
     background-position: center;
@@ -87,19 +86,18 @@
 
 .filters-section {
   padding: 16px 0;
-  padding-left: 10%; /* Dopasowanie do marginesu tekstu w banerze */
+  padding-left: 10%;
 }
 
 .filter-label {
-  display: inline-flex; /* Sprawia, że div zwija się do szerokości treści */
+  display: inline-flex;
   align-items: center;
   gap: 6px;
   background-color: var(--white-color);
   color: var(--text-color);
-  border: 1px solid var(--grey-color); /* Subtelna ramka */
+  border: 1px solid var(--grey-color);
   padding: 6px 20px;
   border-radius: 8px;
   font-size: 15px;
   font-weight: 500;
-  /* Jeśli to nie jest przycisk, usuwamy cursor: pointer, chyba że nadal ma być klikalny */
 }

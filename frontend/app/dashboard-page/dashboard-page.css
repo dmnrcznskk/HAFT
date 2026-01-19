@@ -1,0 +1,45 @@
+:root {
+  --accent-color: #f39233;
+  --button-clicked:#d68600;
+  --white-color: #ffffff;
+  --sand-color: #fdf5e6;
+}
+
+.dashboard-wrapper {
+    padding: 40px;
+}
+
+
+.welcome-header {
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+.info-box {
+    border: 2px dashed var(--accent-color);
+    background-color: var(--sand-color);
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+
+.btn-logout {
+    background-color: var(--accent-color);
+    color: var(--white-color);
+    padding: 12px 30px;
+    border-radius: 12px;
+    font-weight: 700;
+    display: inline-block;
+    transition: transform 0.2s;
+}
+
+.btn-logout:hover {
+    background-color: var(--button-clicked);
+}
+
+.loading-message {
+    padding: 40px;
+    font-style: italic;
+}

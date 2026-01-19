@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import './dashboard-page.css';
 
-const Dashboard = () => {
+const DashboardPage = () => {
   const [userData, setUserData] = useState<any>(null);
   const router = useRouter();
 
@@ -22,18 +23,24 @@ const Dashboard = () => {
     .catch(() => router.push('/login-page'));
   }, [router]);
 
-  if (!userData) return <p>Ładowanie...</p>;
+  if (!userData) return <p className="loading-message">Ładowanie...</p>;
+
+  const displayName = userData.username || 'Użytkowniku';
 
   return (
-    <div className="p-10">
-      <h1>Witaj w Twoim panelu, {userData.username}!</h1>
-      <div className="mt-4 p-4 border rounded">
+    <div className="dashboard-wrapper">
+      <h1 className="welcome-header">Witaj w Twoim panelu, {displayName}!</h1>
+      
+      <div className="info-box">
         <p><strong>Email:</strong> {userData.email}</p>
-        <p><strong>ID Użytkownika:</strong> {userData.id}</p>
       </div>
+      
       <button 
-        onClick={() => { localStorage.removeItem('token'); window.location.reload(); }}
-        className="mt-4 bg-red-500 text-white p-2 rounded"
+        onClick={() => { 
+          localStorage.removeItem('token'); 
+          router.push('/login-page');
+        }}
+        className="btn-logout"
       >
         Wyloguj się
       </button>
@@ -41,4 +48,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default DashboardPage;
