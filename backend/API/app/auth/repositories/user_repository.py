@@ -9,3 +9,11 @@ class UserRepository(RepositoryBase):
         query = select(NNUser).where(NNUser.email == email)
         existing_user = await self.db.exec(query)
         return existing_user.first()
+
+    async def update_db_user(self, user: NNUser, update_data: dict):
+        user.sqlmodel_update(update_data)
+        self.db.add(user)
+        await self.db.commit()
+        await self.db.refresh(user)
+
+        return user

@@ -49,7 +49,8 @@ class AuthService:
             )
         hashed_password = self.password_hash.hash(new_user.password)
         mapped_new_user = NNUser(
-            email=new_user.email, hashed_password=hashed_password, username="New User"
+         **new_user.model_dump(),
+         hashed_password=hashed_password
         )
 
         return await self.repo.create(mapped_new_user)
@@ -81,3 +82,12 @@ class AuthService:
         )
 
         return new_access_token
+
+    async def update_user_profile(self, credentials, user):
+        update_data = credentials.model_dump(exclude_unset=True)
+
+        if "password" in update_data:
+            hashed_password = self.password_hash.hash(update_data["password"])
+            update_data["hashed_password"] = hashed_password
+
+        return await self.repo.update_db_user(user, update_data)
