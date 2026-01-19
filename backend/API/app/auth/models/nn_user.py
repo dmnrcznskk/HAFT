@@ -20,9 +20,11 @@ class NNUser(UserBase, table=True):
 class CreateNNUser(UserBase):
     password: str
 
+
 class UpdateNNUser(UserBase):
     email: EmailStr | None = None
     password: str | None = None
+
 
 class ResponseNNUser(UserBase):
     id: UUID

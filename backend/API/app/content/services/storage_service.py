@@ -33,3 +33,16 @@ class StorageService:
 
         except Exception as e:
             print(e)
+
+    def delete(self, url: str):
+        parts = url.split("/storage/v1/object/public/")
+        if len(parts) < 2:
+            raise ValueError("Wrong URL")
+
+        full_path = parts[1]
+
+        bucket_name, file_path = full_path.split("/", 1)
+
+        response = self.supabase_client.storage.from_(bucket_name).remove([file_path])
+
+        return response

@@ -35,7 +35,12 @@ class Content(ContentBase, table=True):
         sa_column_kwargs={"onupdate": datetime.datetime.now},
     )
     user_id: UUID = Field(foreign_key="nn_user.id")
-    embroidery: Optional["Embroidery"] = Relationship(back_populates="content")
+    embroidery: Optional["Embroidery"] = Relationship(
+        back_populates="content",
+        sa_relationship_kwargs={
+            "cascade": "all, delete-orphan",
+        },
+    )
 
 
 # class to keep code clean
