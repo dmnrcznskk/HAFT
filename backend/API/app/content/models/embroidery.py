@@ -12,7 +12,9 @@ if TYPE_CHECKING:
 class Embroidery(SQLModel, table=True):
     id: int = Field(primary_key=True)
     url: str
-    content_id: UUID = Field(foreign_key="content.id")
+    content_id: UUID = Field(
+        foreign_key="content.id", ondelete="CASCADE", sa_column_kwargs={"index": True}
+    )
     content: "Content" = Relationship(back_populates="embroidery")
 
 

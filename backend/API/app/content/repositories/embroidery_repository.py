@@ -44,3 +44,7 @@ class EmbroideryRepository(RepositoryBase):
         )
         results = await self.db.exec(query)
         return results.all()
+
+    async def delete(self, embroidery):
+        await self.db.delete(embroidery)
+        await self.db.commit()

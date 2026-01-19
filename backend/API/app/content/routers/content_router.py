@@ -83,12 +83,13 @@ async def generate_embroidery(
     return await generate_embroidery_from_picture(img, num_colors, width_cm, aida_count)
 
 
-@content_router.patch("/{content_id}/embroidery/update")
-async def update_embroidery(
+@content_router.delete("/{content_id}/embroidery/")
+async def delete_embroidery(
     content_id: UUID,
-    file: UploadFile = File(...),
     current_user: NNUser = Depends(get_current_user),
+    content_service: ContentService = Depends(get_content_service),
 ):
     validate_user_authenticated(current_user)
+    await content_service.delete_embroidery(content_id, current_user)
 
-    return await content_service.update_embroidery(content_id, file, current_user)
+    return {"message": "Embroidery deleted"}

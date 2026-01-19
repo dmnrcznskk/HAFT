@@ -22,3 +22,7 @@ class ContentRepository(RepositoryBase):
         query = select(Content).where(col(Content.title).ilike(f"{search_phrase}%"))
         existing_content = await self.db.exec(query)
         return existing_content.all()
+
+    async def delete(self, content: Content):
+        await self.db.delete(content)
+        await self.db.commit()
